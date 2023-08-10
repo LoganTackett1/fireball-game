@@ -9,7 +9,7 @@ function render(canvas, state) {
   ctx.beginPath();
   ctx.rect(...inputMap(0, 0, canvas.width, 100));
   ctx.fillStyle = "Green";
-  ctx.fillRect();
+  ctx.fill();
   ctx.closePath();
 
   Object.keys(state).forEach((key) => {
@@ -17,7 +17,7 @@ function render(canvas, state) {
     ctx.beginPath();
     ctx.rect(...inputMap(Math.round(phys.x - 15), Math.round(phys.y), 30, 30));
     ctx.fillStyle = "Red";
-    ctx.fillRect();
+    ctx.fill();
     ctx.closePath();
   });
 }

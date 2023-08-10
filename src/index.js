@@ -9,6 +9,7 @@ display.width = 800;
 display.height = 400;
 
 const client = gameInit();
+client.newPlayer();
 
 setInterval(() => {
   client.next();
