@@ -19,6 +19,7 @@ function gameInit() {
         v_Horizontal: 0,
       },
     };
+    return `player${counter}`;
   }
 
   function newEvent(player, e) {
