@@ -1,18 +1,25 @@
-const path = require('path');
-
+const path = require("path");
 
 module.exports = {
-entry: './src/index.js',
-output: {
-filename: 'main.js',
-path: path.resolve(__dirname, 'dist'),
-},
-module: {
+  entry: "./src/index.js",
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
+  },
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
     ],
+  },
+  optimization: {
+    runtimeChunk: false,
+    splitChunks: false,
   },
 };
