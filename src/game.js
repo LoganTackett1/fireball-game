@@ -31,22 +31,18 @@ function gameInit() {
 
     if (event === "jump") {
       if (player.physics.y <= 100) {
-        player.physics.a_Vertical = -240;
-        player.physics.v_Vertical = 400;
+        player.physics.a_Vertical = -340;
+        player.physics.v_Vertical = 170;
       }
     }
-    if (event[0] === "k") {
-      if (event[1] === "u") {
-        if (event[2] === "A") {
-          player.physics.v_Horizontal += 60;
-        } else if (event[2] === "D") {
-          players.physics.v_Horizontal -= 60;
-        }
-      } else if (event[1] === "d") {
-        if (event[2] === "A") {
-          player.physics.v_Horizontal -= 60;
-        } else if (event[2] === "D") {
-          players.physics.v_Horizontal += 60;
+    if (event.charAt(0) === "k") {
+      if (event.charAt(1) === "u") {
+        player.physics.v_Horizontal = 0;
+      } else if (event.charAt(1) === "d") {
+        if (event.charAt(2) === "a") {
+          player.physics.v_Horizontal = -60;
+        } else if (event.charAt(2) === "d") {
+          player.physics.v_Horizontal = 60;
         }
       }
     }
@@ -66,8 +62,8 @@ function gameInit() {
       player.physics.x += player.physics.v_Horizontal * timestep;
       player.physics.y += player.physics.v_Vertical * timestep;
       player.physics.v_Vertical += player.physics.a_Vertical * timestep;
-      if (player.physics.y <= 0) {
-        player.physics.y = 0;
+      if (player.physics.y < 100) {
+        player.physics.y = 100;
         player.physics.v_Vertical = 0;
         player.physics.a_Vertical = 0;
       }
