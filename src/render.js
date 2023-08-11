@@ -1,13 +1,10 @@
-function inputMap(canvas, x, y, width, height) {
-  return [x, canvas.height - y, width, -height];
+function inputMap(x, y, width, height) {
+  return [x, 400 - y, width, -height];
 }
 
-function render(canvas, state) {
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
+function render(ctx, state) {
   ctx.beginPath();
-  ctx.rect(...inputMap(0, 0, canvas.width, 100));
+  ctx.rect(...inputMap(0, 0, 800, 100));
   ctx.fillStyle = "Green";
   ctx.fill();
   ctx.closePath();

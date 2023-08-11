@@ -11,7 +11,12 @@ display.height = 400;
 const client = gameInit();
 client.newPlayer();
 
-setInterval(() => {
-  client.next();
-  render(display, client.gameState);
-}, 33);
+const ctx = display.getContext("2d");
+
+async function tick() {
+  client.next(33 / 1000);
+  ctx.clearRect(0, 0, display.width, display.height);
+  render(ctx, client.gameState);
+}
+
+setInterval(tick, 33);
