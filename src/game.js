@@ -31,7 +31,7 @@ function gameInit() {
 
     if (event === "jump") {
       if (player.physics.y <= 100) {
-        player.physics.a_Vertical = -340;
+        player.physics.a_Vertical = -370;
         player.physics.v_Vertical = 170;
       }
     }
@@ -60,7 +60,9 @@ function gameInit() {
     Object.keys(gameState).forEach((key) => {
       const player = gameState[key];
       player.physics.x += player.physics.v_Horizontal * timestep;
-      player.physics.y += player.physics.v_Vertical * timestep;
+      player.physics.y +=
+        player.physics.v_Vertical * timestep +
+        player.physics.a_Vertical * timestep * timestep * 0.5;
       player.physics.v_Vertical += player.physics.a_Vertical * timestep;
       if (player.physics.y < 100) {
         player.physics.y = 100;
