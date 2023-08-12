@@ -4,12 +4,19 @@
 function gameInit() {
   const gameState = {};
   const players = [];
-  let counter = 0;
+
+  function idGen() {
+    let result = "";
+    for (let i = 0; i < 10; i += 1) {
+      result += Math.floor(Math.random() * 10);
+    }
+    return result;
+  }
 
   function newPlayer() {
-    counter += 1;
-    players.push(`player${counter}`);
-    gameState[`player${counter}`] = {
+    const id = idGen();
+    players.push(`player${id}`);
+    gameState[`player${id}`] = {
       events: [],
       physics: {
         x: 400,
@@ -18,35 +25,36 @@ function gameInit() {
         v_Vertical: 0,
         v_Horizontal: 0,
       },
+      id,
+      color: `rgb(${Math.floor(255 * Math.random())},${Math.floor(
+        255 * Math.random()
+      )},${Math.floor(255 * Math.random())})`,
     };
-    return `player${counter}`;
+    return id;
   }
 
   function newEvent(player, e) {
     gameState[player].events.push(e);
   }
 
-  function processEvent(player) {
-    const event = player.events[player.events.length - 1];
-
-    if (event === "jump") {
+  function processEvent(player, item) {
+    if (item === "jump") {
       if (player.physics.y <= 100) {
         player.physics.a_Vertical = -1440;
         player.physics.v_Vertical = 360;
       }
     }
-    if (event.charAt(0) === "k") {
-      if (event.charAt(1) === "u") {
+    if (item.charAt(0) === "k") {
+      if (item.charAt(1) === "u") {
         player.physics.v_Horizontal = 0;
-      } else if (event.charAt(1) === "d") {
-        if (event.charAt(2) === "a") {
+      } else if (item.charAt(1) === "d") {
+        if (item.charAt(2) === "a") {
           player.physics.v_Horizontal = -120;
-        } else if (event.charAt(2) === "d") {
+        } else if (item.charAt(2) === "d") {
           player.physics.v_Horizontal = 120;
         }
       }
     }
-    player.events.pop();
   }
 
   function next(timestep) {
@@ -54,7 +62,7 @@ function gameInit() {
       const player = gameState[key];
       const { events } = player;
       for (let i = events.length - 1; i >= 0; i -= 1) {
-        processEvent(player);
+        processEvent(player, events[i]);
       }
     });
     Object.keys(gameState).forEach((key) => {

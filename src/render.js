@@ -13,7 +13,7 @@ function render(ctx, state) {
     const phys = state[key].physics;
     ctx.beginPath();
     ctx.rect(...inputMap(Math.round(phys.x - 15), Math.round(phys.y), 30, 30));
-    ctx.fillStyle = "Red";
+    ctx.fillStyle = state[key].color;
     ctx.fill();
     ctx.closePath();
   });
