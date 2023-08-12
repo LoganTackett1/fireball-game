@@ -8,6 +8,8 @@ document.body.appendChild(display);
 display.width = 800;
 display.height = 400;
 
+const serverURL = "PLEASE CHANGE ME!!!";
+
 const client = gameInit();
 client.me = client.gameState[client.newPlayer()];
 client.keyDown = {
@@ -41,6 +43,17 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+function postEvent(url) {
+  fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([client.me.events, client.me.id]),
+  });
+}
+
 function keysToEvent() {
   const result = [];
   if (client.keyDown.W === true || client.keyDown.Space === true) {
@@ -61,15 +74,45 @@ function keysToEvent() {
   result.forEach((item) => {
     client.me.events.push(item);
   });
+  postEvent(serverURL);
 }
 
 const ctx = display.getContext("2d");
 
 async function tick() {
   keysToEvent();
-  client.next(33 / 1000);
+  client.next(16 / 1000);
   ctx.clearRect(0, 0, display.width, display.height);
   render(ctx, client.gameState);
 }
 
-setInterval(tick, 33);
+setInterval(tick, 16);
+
+async function mergeState(state) {
+  Object.keys(state).forEach((key) => {
+    if (state[key].id !== client.me.id) {
+      if (key in client.gameState) {
+        client.gameState[key].events = state[key].events;
+      } else {
+        client.gameState[key] = state[key];
+      }
+    }
+  });
+}
+
+async function syncGame(id, ping, url) {
+  const start = Date.now();
+  fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id, ping }),
+  })
+    .then((response) => response.json())
+    .then((response) => mergeState(response))
+    .then(syncGame(id, Date.now() - start));
+}
+
+syncGame(client.me.id, 33, serverURL);
