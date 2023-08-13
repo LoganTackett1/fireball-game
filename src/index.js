@@ -125,12 +125,19 @@ async function syncGame(ping, url) {
     .then((response) => mergeState(response));
 }
 
+let syncCounter = 3;
+
 async function tick() {
   keysToEvent();
-  client.next(33 / 1000);
+  client.next(16 / 1000);
   ctx.clearRect(0, 0, display.width, display.height);
   render(ctx, client.gameState);
-  syncGame(33, serverURL);
+  if (syncCounter === 3) {
+    syncGame(33, serverURL);
+    syncCounter = 1;
+  } else {
+    syncCounter += 1;
+  }
 }
 
 await fetch(serverURL, {
@@ -148,4 +155,4 @@ await fetch(serverURL, {
     client.me = client.gameState[`player${result.id}`];
   });
 
-setInterval(tick, 33);
+setInterval(tick, 16);
