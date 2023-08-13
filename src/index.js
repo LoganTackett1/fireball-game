@@ -8,7 +8,7 @@ document.body.appendChild(display);
 display.width = 800;
 display.height = 400;
 
-const serverURL = "http://cube-game-server.onrender.com:8000/";
+const serverURL = "https://cube-game-server.onrender.com:10000/";
 
 const client = gameInit();
 
