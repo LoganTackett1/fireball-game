@@ -127,7 +127,7 @@ async function syncGame(ping, url) {
 
 async function tick() {
   keysToEvent();
-  client.next(16 / 1000);
+  client.next(33 / 1000);
   ctx.clearRect(0, 0, display.width, display.height);
   render(ctx, client.gameState);
   syncGame(33, serverURL);
@@ -148,4 +148,4 @@ await fetch(serverURL, {
     client.me = client.gameState[`player${result.id}`];
   });
 
-setInterval(tick, 16);
+setInterval(tick, 33);
